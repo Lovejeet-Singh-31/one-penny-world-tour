@@ -162,20 +162,38 @@ nav ul a:hover { color: var(--blue); }
 #why .content-box strong { color: var(--text); }
 
 /* Map */
-.map-wrap { margin-top: 48px; padding: 28px; position: relative; }
-.map-wrap svg { width: 100%; height: auto; }
-.dot {
-  fill: var(--gold); filter: drop-shadow(0 0 6px rgba(255,215,0,.6));
-  animation: pulse-dot 2s ease-in-out infinite;
+.map-wrap { margin-top: 48px; padding: 0; position: relative; overflow: hidden; border-radius: var(--radius); }
+#worldMap { width: 100%; display: block; background: radial-gradient(ellipse at 50% 50%, #0a0e1a, #050610); border-radius: var(--radius); }
+.map-tooltip {
+  position: absolute; padding: 6px 14px; border-radius: 8px;
+  background: rgba(10,14,26,.92); border: 1px solid var(--border-card);
+  color: var(--gold); font-size: .78rem; font-weight: 600; pointer-events: none;
+  opacity: 0; transition: opacity .2s; white-space: nowrap; z-index: 10;
+  backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
 }
-@keyframes pulse-dot { 0%,100%{r:4;opacity:1} 50%{r:7;opacity:.6} }
-.dest-list { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 28px; justify-content: center; }
-.dest-chip {
-  padding: 8px 18px; border-radius: 40px; font-size: .82rem; font-weight: 500;
+.continent-filters {
+  display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin: 28px 0 18px;
+}
+.cont-btn {
+  padding: 7px 18px; border-radius: 30px; font-size: .78rem; font-weight: 600;
   background: rgba(255,255,255,.04); border: 1px solid var(--border-card);
-  transition: border-color .2s, color .2s; cursor: default;
+  color: var(--text-dim); cursor: pointer; transition: .2s;
+}
+.cont-btn:hover, .cont-btn.active { border-color: var(--blue); color: var(--blue); background: rgba(0,212,255,.08); }
+.dest-list { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 0; justify-content: center; }
+.dest-chip {
+  padding: 7px 16px; border-radius: 40px; font-size: .78rem; font-weight: 500;
+  background: rgba(255,255,255,.04); border: 1px solid var(--border-card);
+  transition: border-color .2s, color .2s, opacity .3s; cursor: default;
 }
 .dest-chip:hover { border-color: var(--gold); color: var(--gold); }
+.dest-chip.dim { opacity: .25; }
+.map-stats {
+  display: flex; justify-content: center; gap: 32px; margin-top: 24px; flex-wrap: wrap;
+}
+.map-stat { text-align: center; }
+.map-stat .num { font-family: 'Space Grotesk', sans-serif; font-size: 1.6rem; font-weight: 700; }
+.map-stat .lab { font-size: .76rem; color: var(--text-dim); margin-top: 2px; }
 
 /* Donate — UPI only */
 .upi-card {
@@ -418,66 +436,27 @@ footer .bottom { text-align: center; color: var(--text-dim); font-size: .78rem; 
     <div class="reveal">
       <div class="section-label">Route</div>
       <h2 class="section-title">The <span class="gradient-text">Planned Journey</span></h2>
-      <p class="section-desc">Spanning five continents and fifteen countries — a route shaped by curiosity.</p>
+      <p class="section-desc">Spanning every continent — wherever curiosity leads, the journey follows.</p>
     </div>
-    <div class="map-wrap glass reveal">
-      <svg viewBox="0 0 1000 500" xmlns="http://www.w3.org/2000/svg">
-        <rect width="1000" height="500" fill="rgba(0,0,0,.25)" rx="12"/>
-        <g stroke="rgba(255,255,255,.04)" stroke-width=".5">
-          <line x1="0" y1="250" x2="1000" y2="250"/>
-          <line x1="500" y1="0" x2="500" y2="500"/>
-          <line x1="0" y1="125" x2="1000" y2="125"/>
-          <line x1="0" y1="375" x2="1000" y2="375"/>
-          <line x1="250" y1="0" x2="250" y2="500"/>
-          <line x1="750" y1="0" x2="750" y2="500"/>
-        </g>
-        <g fill="rgba(255,255,255,.06)" stroke="rgba(255,255,255,.08)" stroke-width=".7">
-          <ellipse cx="220" cy="170" rx="100" ry="90"/>
-          <ellipse cx="280" cy="340" rx="55" ry="85"/>
-          <ellipse cx="490" cy="145" rx="55" ry="50"/>
-          <ellipse cx="510" cy="290" rx="55" ry="90"/>
-          <ellipse cx="680" cy="180" rx="120" ry="80"/>
-          <ellipse cx="790" cy="370" rx="50" ry="35"/>
-        </g>
-        <circle class="dot" cx="755" cy="155" r="4"><title>Japan</title></circle>
-        <circle class="dot" cx="738" cy="162" r="4"><title>South Korea</title></circle>
-        <circle class="dot" cx="700" cy="220" r="4"><title>Thailand</title></circle>
-        <circle class="dot" cx="712" cy="250" r="4"><title>Singapore</title></circle>
-        <circle class="dot" cx="790" cy="370" r="4"><title>Australia</title></circle>
-        <circle class="dot" cx="830" cy="390" r="4"><title>New Zealand</title></circle>
-        <circle class="dot" cx="500" cy="140" r="4"><title>Germany</title></circle>
-        <circle class="dot" cx="478" cy="148" r="4"><title>France</title></circle>
-        <circle class="dot" cx="498" cy="160" r="4"><title>Italy</title></circle>
-        <circle class="dot" cx="495" cy="145" r="4"><title>Switzerland</title></circle>
-        <circle class="dot" cx="195" cy="140" r="4"><title>Canada</title></circle>
-        <circle class="dot" cx="210" cy="180" r="4"><title>United States</title></circle>
-        <circle class="dot" cx="290" cy="330" r="4"><title>Brazil</title></circle>
-        <circle class="dot" cx="275" cy="380" r="4"><title>Argentina</title></circle>
-        <circle class="dot" cx="510" cy="340" r="4"><title>South Africa</title></circle>
-        <g stroke="var(--gold)" stroke-width="1" fill="none" opacity=".35" stroke-dasharray="6 4">
-          <polyline points="755,155 738,162 700,220 712,250 790,370 830,390"/>
-          <polyline points="830,390 510,340 275,380 290,330 210,180 195,140"/>
-          <polyline points="195,140 478,148 500,140 495,145 498,160"/>
-        </g>
-      </svg>
+    <div class="map-wrap glass reveal" style="position:relative;">
+      <canvas id="worldMap" width="1100" height="540"></canvas>
+      <div class="map-tooltip" id="mapTooltip"></div>
     </div>
-    <div class="dest-list reveal">
-      <div class="dest-chip">🇯🇵 Japan</div>
-      <div class="dest-chip">🇰🇷 South Korea</div>
-      <div class="dest-chip">🇹🇭 Thailand</div>
-      <div class="dest-chip">🇸🇬 Singapore</div>
-      <div class="dest-chip">🇦🇺 Australia</div>
-      <div class="dest-chip">🇳🇿 New Zealand</div>
-      <div class="dest-chip">🇩🇪 Germany</div>
-      <div class="dest-chip">🇫🇷 France</div>
-      <div class="dest-chip">🇮🇹 Italy</div>
-      <div class="dest-chip">🇨🇭 Switzerland</div>
-      <div class="dest-chip">🇨🇦 Canada</div>
-      <div class="dest-chip">🇺🇸 United States</div>
-      <div class="dest-chip">🇧🇷 Brazil</div>
-      <div class="dest-chip">🇦🇷 Argentina</div>
-      <div class="dest-chip">🇿🇦 South Africa</div>
+    <div class="map-stats reveal">
+      <div class="map-stat"><div class="num gradient-text">50+</div><div class="lab">Countries</div></div>
+      <div class="map-stat"><div class="num" style="color:var(--gold)">6</div><div class="lab">Continents</div></div>
+      <div class="map-stat"><div class="num" style="color:var(--cyan)">1</div><div class="lab">Dream</div></div>
     </div>
+    <div class="continent-filters reveal">
+      <button class="cont-btn active" data-cont="all">All</button>
+      <button class="cont-btn" data-cont="asia">Asia</button>
+      <button class="cont-btn" data-cont="europe">Europe</button>
+      <button class="cont-btn" data-cont="africa">Africa</button>
+      <button class="cont-btn" data-cont="namerica">N. America</button>
+      <button class="cont-btn" data-cont="samerica">S. America</button>
+      <button class="cont-btn" data-cont="oceania">Oceania</button>
+    </div>
+    <div class="dest-list reveal" id="destList"></div>
   </div>
 </section>
 
@@ -699,6 +678,265 @@ function setCalc(amount) {
 }
 calcBtns.forEach(b => b.addEventListener('click', () => setCalc(+b.dataset.amount)));
 setCalc(50);
+
+// ── Dark World Map ──
+(function(){
+  const countries = [
+    // Asia
+    {name:"Japan",lat:35.68,lng:139.69,cont:"asia",flag:"🇯🇵"},
+    {name:"South Korea",lat:37.57,lng:126.98,cont:"asia",flag:"🇰🇷"},
+    {name:"China",lat:39.90,lng:116.40,cont:"asia",flag:"🇨🇳"},
+    {name:"India",lat:28.61,lng:77.21,cont:"asia",flag:"🇮🇳"},
+    {name:"Thailand",lat:13.76,lng:100.50,cont:"asia",flag:"🇹🇭"},
+    {name:"Vietnam",lat:21.03,lng:105.85,cont:"asia",flag:"🇻🇳"},
+    {name:"Singapore",lat:1.35,lng:103.82,cont:"asia",flag:"🇸🇬"},
+    {name:"Indonesia",lat:-6.21,lng:106.85,cont:"asia",flag:"🇮🇩"},
+    {name:"Malaysia",lat:3.14,lng:101.69,cont:"asia",flag:"🇲🇾"},
+    {name:"Philippines",lat:14.60,lng:120.98,cont:"asia",flag:"🇵🇭"},
+    {name:"Nepal",lat:27.72,lng:85.32,cont:"asia",flag:"🇳🇵"},
+    {name:"Sri Lanka",lat:6.93,lng:79.84,cont:"asia",flag:"🇱🇰"},
+    {name:"UAE",lat:25.20,lng:55.27,cont:"asia",flag:"🇦🇪"},
+    {name:"Saudi Arabia",lat:24.69,lng:46.72,cont:"asia",flag:"🇸🇦"},
+    {name:"Turkey",lat:41.01,lng:28.98,cont:"asia",flag:"🇹🇷"},
+    {name:"Israel",lat:31.77,lng:35.22,cont:"asia",flag:"🇮🇱"},
+    {name:"Jordan",lat:31.95,lng:35.93,cont:"asia",flag:"🇯🇴"},
+    {name:"Cambodia",lat:11.56,lng:104.93,cont:"asia",flag:"🇰🇭"},
+    {name:"Mongolia",lat:47.92,lng:106.91,cont:"asia",flag:"🇲🇳"},
+    // Europe
+    {name:"United Kingdom",lat:51.51,lng:-0.13,cont:"europe",flag:"🇬🇧"},
+    {name:"France",lat:48.86,lng:2.35,cont:"europe",flag:"🇫🇷"},
+    {name:"Germany",lat:52.52,lng:13.40,cont:"europe",flag:"🇩🇪"},
+    {name:"Italy",lat:41.90,lng:12.50,cont:"europe",flag:"🇮🇹"},
+    {name:"Spain",lat:40.42,lng:-3.70,cont:"europe",flag:"🇪🇸"},
+    {name:"Portugal",lat:38.72,lng:-9.14,cont:"europe",flag:"🇵🇹"},
+    {name:"Netherlands",lat:52.37,lng:4.90,cont:"europe",flag:"🇳🇱"},
+    {name:"Switzerland",lat:46.95,lng:7.45,cont:"europe",flag:"🇨🇭"},
+    {name:"Austria",lat:48.21,lng:16.37,cont:"europe",flag:"🇦🇹"},
+    {name:"Greece",lat:37.98,lng:23.73,cont:"europe",flag:"🇬🇷"},
+    {name:"Czech Republic",lat:50.08,lng:14.44,cont:"europe",flag:"🇨🇿"},
+    {name:"Sweden",lat:59.33,lng:18.07,cont:"europe",flag:"🇸🇪"},
+    {name:"Norway",lat:59.91,lng:10.75,cont:"europe",flag:"🇳🇴"},
+    {name:"Denmark",lat:55.68,lng:12.57,cont:"europe",flag:"🇩🇰"},
+    {name:"Iceland",lat:64.15,lng:-21.94,cont:"europe",flag:"🇮🇸"},
+    {name:"Ireland",lat:53.35,lng:-6.26,cont:"europe",flag:"🇮🇪"},
+    {name:"Poland",lat:52.23,lng:21.01,cont:"europe",flag:"🇵🇱"},
+    {name:"Hungary",lat:47.50,lng:19.04,cont:"europe",flag:"🇭🇺"},
+    {name:"Croatia",lat:45.81,lng:15.98,cont:"europe",flag:"🇭🇷"},
+    // Africa
+    {name:"South Africa",lat:-33.93,lng:18.42,cont:"africa",flag:"🇿🇦"},
+    {name:"Egypt",lat:30.04,lng:31.24,cont:"africa",flag:"🇪🇬"},
+    {name:"Morocco",lat:33.97,lng:-6.85,cont:"africa",flag:"🇲🇦"},
+    {name:"Kenya",lat:-1.29,lng:36.82,cont:"africa",flag:"🇰🇪"},
+    {name:"Tanzania",lat:-6.79,lng:39.28,cont:"africa",flag:"🇹🇿"},
+    {name:"Nigeria",lat:9.08,lng:7.49,cont:"africa",flag:"🇳🇬"},
+    {name:"Ethiopia",lat:9.02,lng:38.75,cont:"africa",flag:"🇪🇹"},
+    {name:"Ghana",lat:5.60,lng:-0.19,cont:"africa",flag:"🇬🇭"},
+    {name:"Rwanda",lat:-1.94,lng:29.87,cont:"africa",flag:"🇷🇼"},
+    {name:"Namibia",lat:-22.56,lng:17.08,cont:"africa",flag:"🇳🇦"},
+    // North America
+    {name:"United States",lat:38.91,lng:-77.04,cont:"namerica",flag:"🇺🇸"},
+    {name:"Canada",lat:45.42,lng:-75.70,cont:"namerica",flag:"🇨🇦"},
+    {name:"Mexico",lat:19.43,lng:-99.13,cont:"namerica",flag:"🇲🇽"},
+    {name:"Cuba",lat:23.11,lng:-82.37,cont:"namerica",flag:"🇨🇺"},
+    {name:"Costa Rica",lat:9.93,lng:-84.09,cont:"namerica",flag:"🇨🇷"},
+    {name:"Panama",lat:8.98,lng:-79.52,cont:"namerica",flag:"🇵🇦"},
+    {name:"Jamaica",lat:18.11,lng:-77.30,cont:"namerica",flag:"🇯🇲"},
+    // South America
+    {name:"Brazil",lat:-15.79,lng:-47.88,cont:"samerica",flag:"🇧🇷"},
+    {name:"Argentina",lat:-34.60,lng:-58.38,cont:"samerica",flag:"🇦🇷"},
+    {name:"Chile",lat:-33.45,lng:-70.67,cont:"samerica",flag:"🇨🇱"},
+    {name:"Colombia",lat:4.71,lng:-74.07,cont:"samerica",flag:"🇨🇴"},
+    {name:"Peru",lat:-12.05,lng:-77.04,cont:"samerica",flag:"🇵🇪"},
+    {name:"Ecuador",lat:-0.18,lng:-78.47,cont:"samerica",flag:"🇪🇨"},
+    {name:"Bolivia",lat:-16.50,lng:-68.15,cont:"samerica",flag:"🇧🇴"},
+    {name:"Uruguay",lat:-34.88,lng:-56.16,cont:"samerica",flag:"🇺🇾"},
+    // Oceania
+    {name:"Australia",lat:-33.87,lng:151.21,cont:"oceania",flag:"🇦🇺"},
+    {name:"New Zealand",lat:-41.29,lng:174.78,cont:"oceania",flag:"🇳🇿"},
+    {name:"Fiji",lat:-18.14,lng:178.44,cont:"oceania",flag:"🇫🇯"},
+  ];
+
+  // Mercator projection
+  function project(lat, lng, w, h) {
+    const x = (lng + 180) / 360 * w;
+    const latRad = lat * Math.PI / 180;
+    const mercN = Math.log(Math.tan(Math.PI / 4 + latRad / 2));
+    const y = h / 2 - (mercN / Math.PI) * (h / 2) * 0.92;
+    return [x, y];
+  }
+
+  // Compact coastline dots — encode land as lat/lng bands
+  // We'll draw a dot-grid and only show dots on "land" using a simplified bitmap
+  const canvas = document.getElementById('worldMap');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height;
+
+  // Simplified land coordinates (lat/lng bounding boxes for continents)
+  const landBoxes = [
+    // North America
+    {lat1:25,lat2:72,lng1:-168,lng2:-52},
+    {lat1:15,lat2:25,lng1:-120,lng2:-75},
+    // Central America
+    {lat1:7,lat2:20,lng1:-92,lng2:-77},
+    // South America
+    {lat1:-56,lat2:12,lng1:-82,lng2:-34},
+    // Europe
+    {lat1:36,lat2:71,lng1:-10,lng2:40},
+    // Africa
+    {lat1:-35,lat2:37,lng1:-18,lng2:52},
+    // Middle East
+    {lat1:12,lat2:42,lng1:35,lng2:63},
+    // Russia / Central Asia
+    {lat1:42,lat2:75,lng1:40,lng2:180},
+    // South Asia
+    {lat1:6,lat2:37,lng1:63,lng2:98},
+    // SE Asia
+    {lat1:-10,lat2:28,lng1:92,lng2:140},
+    // East Asia
+    {lat1:20,lat2:55,lng1:100,lng2:145},
+    // Japan/Korea
+    {lat1:30,lat2:46,lng1:126,lng2:146},
+    // Australia
+    {lat1:-44,lat2:-10,lng1:112,lng2:154},
+    // NZ
+    {lat1:-47,lat2:-34,lng1:166,lng2:179},
+    // Indonesia
+    {lat1:-8,lat2:6,lng1:95,lng2:141},
+    // UK/Ireland
+    {lat1:50,lat2:59,lng1:-11,lng2:2},
+    // Iceland
+    {lat1:63,lat2:67,lng1:-24,lng2:-13},
+    // Madagascar
+    {lat1:-26,lat2:-12,lng1:43,lng2:50},
+    // Greenland
+    {lat1:60,lat2:84,lng1:-73,lng2:-12},
+  ];
+
+  function isLand(lat, lng) {
+    // Quick ocean check
+    for (const b of landBoxes) {
+      if (lat >= b.lat1 && lat <= b.lat2 && lng >= b.lng1 && lng <= b.lng2) return true;
+    }
+    return false;
+  }
+
+  function drawMap() {
+    ctx.clearRect(0, 0, W, H);
+
+    // Background gradient
+    const bg = ctx.createRadialGradient(W/2, H/2, 0, W/2, H/2, W*0.6);
+    bg.addColorStop(0, '#0d1225');
+    bg.addColorStop(1, '#050610');
+    ctx.fillStyle = bg;
+    ctx.fillRect(0, 0, W, H);
+
+    // Subtle grid
+    ctx.strokeStyle = 'rgba(255,255,255,.02)';
+    ctx.lineWidth = 0.5;
+    for (let lat = -60; lat <= 80; lat += 30) {
+      const [,y] = project(lat, 0, W, H);
+      ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke();
+    }
+    for (let lng = -180; lng <= 180; lng += 60) {
+      const [x] = project(0, lng, W, H);
+      ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H); ctx.stroke();
+    }
+
+    // Land dots
+    const step = 2.5;
+    for (let lat = -60; lat <= 80; lat += step) {
+      for (let lng = -180; lng <= 180; lng += step) {
+        if (isLand(lat, lng)) {
+          const [x, y] = project(lat, lng, W, H);
+          ctx.fillStyle = 'rgba(255,255,255,.08)';
+          ctx.beginPath(); ctx.arc(x, y, 1.2, 0, Math.PI * 2); ctx.fill();
+        }
+      }
+    }
+
+    // Country dots with glow
+    countries.forEach((c, i) => {
+      const [x, y] = project(c.lat, c.lng, W, H);
+      c._x = x; c._y = y;
+
+      // Glow
+      const glow = ctx.createRadialGradient(x, y, 0, x, y, 12);
+      glow.addColorStop(0, 'rgba(255,215,0,.4)');
+      glow.addColorStop(1, 'rgba(255,215,0,0)');
+      ctx.fillStyle = glow;
+      ctx.beginPath(); ctx.arc(x, y, 12, 0, Math.PI * 2); ctx.fill();
+
+      // Dot
+      ctx.fillStyle = '#ffd700';
+      ctx.beginPath(); ctx.arc(x, y, 2.5, 0, Math.PI * 2); ctx.fill();
+    });
+
+    // Animate pulse on dots
+    const time = Date.now() / 1000;
+    countries.forEach(c => {
+      const pulse = Math.sin(time * 2 + c.lat) * 0.5 + 0.5;
+      const r = 2.5 + pulse * 2;
+      ctx.fillStyle = `rgba(255,215,0,${0.15 + pulse * 0.15})`;
+      ctx.beginPath(); ctx.arc(c._x, c._y, r, 0, Math.PI * 2); ctx.fill();
+    });
+  }
+
+  // Animate
+  function animate() { drawMap(); requestAnimationFrame(animate); }
+  animate();
+
+  // Tooltip on hover
+  const tooltip = document.getElementById('mapTooltip');
+  canvas.addEventListener('mousemove', function(e) {
+    const rect = canvas.getBoundingClientRect();
+    const scaleX = W / rect.width, scaleY = H / rect.height;
+    const mx = (e.clientX - rect.left) * scaleX;
+    const my = (e.clientY - rect.top) * scaleY;
+    let found = null;
+    for (const c of countries) {
+      const dx = mx - c._x, dy = my - c._y;
+      if (dx*dx + dy*dy < 200) { found = c; break; }
+    }
+    if (found) {
+      tooltip.textContent = found.flag + ' ' + found.name;
+      tooltip.style.opacity = '1';
+      tooltip.style.left = (e.clientX - rect.left + 14) + 'px';
+      tooltip.style.top = (e.clientY - rect.top - 10) + 'px';
+      canvas.style.cursor = 'pointer';
+    } else {
+      tooltip.style.opacity = '0';
+      canvas.style.cursor = 'default';
+    }
+  });
+  canvas.addEventListener('mouseleave', () => { tooltip.style.opacity = '0'; });
+
+  // Render destination chips
+  const destList = document.getElementById('destList');
+  countries.forEach(c => {
+    const chip = document.createElement('div');
+    chip.className = 'dest-chip';
+    chip.dataset.cont = c.cont;
+    chip.textContent = c.flag + ' ' + c.name;
+    destList.appendChild(chip);
+  });
+
+  // Continent filters
+  document.querySelectorAll('.cont-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.cont-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const cont = btn.dataset.cont;
+      document.querySelectorAll('#destList .dest-chip').forEach(chip => {
+        if (cont === 'all' || chip.dataset.cont === cont) {
+          chip.classList.remove('dim');
+        } else {
+          chip.classList.add('dim');
+        }
+      });
+    });
+  });
+})();
 
 // Progress bar
 const pObs = new IntersectionObserver((entries) => {
