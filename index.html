@@ -284,6 +284,79 @@ nav ul a:hover { color: var(--blue); }
   .desktop-note { display: block; }
 }
 
+/* I Support Button */
+.support-section { margin-top: 48px; }
+.support-btn-wrap { display: flex; flex-direction: column; align-items: center; gap: 16px; }
+.i-support-btn {
+  position: relative; display: inline-flex; align-items: center; gap: 12px;
+  padding: 18px 44px; border-radius: 60px; border: none;
+  font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 1.15rem;
+  cursor: pointer; color: #fff; overflow: hidden;
+  background: linear-gradient(135deg, #ff6b6b, #ee5a24, #f0932b);
+  box-shadow: 0 4px 28px rgba(255,107,107,.35);
+  transition: transform .25s, box-shadow .25s;
+}
+.i-support-btn:hover { transform: translateY(-3px); box-shadow: 0 8px 36px rgba(255,107,107,.5); }
+.i-support-btn:active { transform: scale(.96); }
+.i-support-btn.clicked {
+  background: linear-gradient(135deg, var(--neon), #00b894);
+  box-shadow: 0 4px 28px rgba(57,255,20,.3);
+  cursor: default;
+}
+.i-support-btn .heart-icon { font-size: 1.3rem; transition: transform .3s; }
+.i-support-btn:hover .heart-icon { transform: scale(1.2); }
+.i-support-btn.clicked .heart-icon { animation: heartPop .5s ease; }
+@keyframes heartPop {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.5); }
+  100% { transform: scale(1); }
+}
+.support-counter {
+  font-family: 'Space Grotesk', sans-serif; font-size: 1rem; font-weight: 600;
+  color: var(--text-dim); display: flex; align-items: center; gap: 6px;
+}
+.support-counter .count-num {
+  color: var(--gold); font-size: 1.2rem;
+  transition: transform .3s;
+}
+.support-counter .count-num.bump { animation: bumpNum .4s ease; }
+@keyframes bumpNum { 0% { transform: scale(1); } 50% { transform: scale(1.3); } 100% { transform: scale(1); } }
+
+/* Sweet toast message */
+.sweet-toast {
+  position: fixed; bottom: 32px; left: 50%; transform: translateX(-50%) translateY(120px);
+  padding: 16px 28px; border-radius: 16px; z-index: 9999;
+  background: rgba(10,14,26,.95); border: 1px solid rgba(255,215,0,.2);
+  backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+  color: var(--text); font-size: .92rem; font-weight: 500;
+  box-shadow: 0 8px 32px rgba(0,0,0,.4);
+  transition: transform .5s cubic-bezier(.22,1,.36,1), opacity .5s;
+  opacity: 0; pointer-events: none; text-align: center; max-width: 400px;
+}
+.sweet-toast.show { transform: translateX(-50%) translateY(0); opacity: 1; pointer-events: auto; }
+.sweet-toast .toast-emoji { font-size: 1.3rem; display: block; margin-bottom: 6px; }
+
+/* iOS UPI app grid */
+.upi-app-grid {
+  display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 16px;
+}
+#iosAppChooser {
+  overflow: hidden; animation: slideDown .35s ease;
+}
+@keyframes slideDown {
+  from { opacity: 0; max-height: 0; margin-top: 0; }
+  to { opacity: 1; max-height: 400px; margin-top: 16px; }
+}
+.upi-app-btn {
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  padding: 14px 18px; border-radius: 14px; border: 1.5px solid var(--border-card);
+  background: rgba(255,255,255,.04); color: var(--text);
+  font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: .88rem;
+  cursor: pointer; transition: .25s; text-decoration: none;
+}
+.upi-app-btn:hover { border-color: var(--gold); color: var(--gold); transform: translateY(-2px); }
+.upi-app-btn .app-icon { font-size: 1.2rem; }
+
 /* Calculator */
 .calc-wrap { max-width: 640px; margin: 48px auto 0; padding: 44px; }
 .amount-grid { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-bottom: 28px; }
@@ -527,9 +600,34 @@ footer .bottom { text-align: center; color: var(--text-dim); font-size: .78rem; 
           <span>₹</span>
           <input type="number" class="custom-amt-input" id="customAmt" placeholder="Custom" min="1">
         </div>
+
+        <!-- Single Pay button for all platforms -->
         <button class="pay-now-btn" id="payNowBtn" onclick="triggerUPIPay()">
           Pay via UPI
         </button>
+
+        <!-- iOS only: app chooser slides open after tapping Pay via UPI -->
+        <div id="iosAppChooser" style="display:none; margin-top:16px;">
+          <p style="color:var(--text-dim);font-size:.85rem;margin-bottom:12px;">Choose your UPI app:</p>
+          <div class="upi-app-grid">
+            <a class="upi-app-btn" onclick="triggerUPIApp('gpay')" href="javascript:void(0)">
+              <span class="app-icon">💳</span> Google Pay
+            </a>
+            <a class="upi-app-btn" onclick="triggerUPIApp('phonepe')" href="javascript:void(0)">
+              <span class="app-icon">📱</span> PhonePe
+            </a>
+            <a class="upi-app-btn" onclick="triggerUPIApp('paytm')" href="javascript:void(0)">
+              <span class="app-icon">💰</span> Paytm
+            </a>
+            <a class="upi-app-btn" onclick="triggerUPIApp('whatsapp')" href="javascript:void(0)">
+              <span class="app-icon">💬</span> WhatsApp Pay
+            </a>
+            <a class="upi-app-btn" onclick="triggerUPIApp('default')" href="javascript:void(0)" style="grid-column: span 2;">
+              <span class="app-icon">⚡</span> Other UPI App
+            </a>
+          </div>
+        </div>
+
         <p class="desktop-note">On mobile? This button will open your UPI app directly.</p>
       </div>
 
@@ -582,16 +680,31 @@ footer .bottom { text-align: center; color: var(--text-dim); font-size: .78rem; 
       <div class="section-label">Progress</div>
       <h2 class="section-title">Journey <span class="gradient-text">Progress</span></h2>
     </div>
+
+    <!-- I Support Button -->
+    <div class="support-section reveal">
+      <div class="support-btn-wrap">
+        <button class="i-support-btn" id="iSupportBtn" onclick="handleSupport()">
+          <span class="heart-icon">❤️</span>
+          <span id="supportBtnText">I Support This Dream</span>
+        </button>
+        <div class="support-counter">
+          <span id="supportCountNum" class="count-num">—</span> people support this journey
+        </div>
+      </div>
+    </div>
+
     <div class="progress-cards">
-      <div class="p-card glass reveal"><div class="val" style="color:var(--gold)">₹5,00,000,000</div><div class="lab">Goal Amount</div></div>
-      <div class="p-card glass reveal"><div class="val gradient-text">₹5400</div><div class="lab">Currently Raised</div></div>
-      <div class="p-card glass reveal"><div class="val" style="color:var(--cyan)">2331</div><div class="lab">Supporters</div></div>
+      <div class="p-card glass reveal"><div class="val" style="color:var(--gold)" id="goalVal">—</div><div class="lab">Goal Amount</div></div>
+      <div class="p-card glass reveal"><div class="val gradient-text" id="raisedVal">—</div><div class="lab">Currently Raised</div></div>
+      <div class="p-card glass reveal"><div class="val" style="color:var(--neon)" id="contributorVal">—</div><div class="lab">Contributed By</div></div>
+      <div class="p-card glass reveal"><div class="val" style="color:var(--cyan)" id="visitorsVal">—</div><div class="lab">Visitors</div></div>
     </div>
     <div class="progress-bar-wrap glass reveal">
       <div class="progress-outer">
         <div class="progress-inner" id="progressBar"></div>
       </div>
-      <p style="text-align:right;font-size:.78rem;color:var(--text-dim);margin-top:8px;">0.00108% funded</p>
+      <p id="progressPercent" style="text-align:right;font-size:.78rem;color:var(--text-dim);margin-top:8px;">— funded</p>
     </div>
   </div>
 </section>
@@ -652,6 +765,14 @@ footer .bottom { text-align: center; color: var(--text-dim); font-size: .78rem; 
     <div class="bottom">© 2026 One Penny World Tour. All Rights Reserved.</div>
   </div>
 </footer>
+
+
+
+<!-- Sweet Toast -->
+<div class="sweet-toast" id="sweetToast">
+  <span class="toast-emoji" id="toastEmoji">💛</span>
+  <span id="toastMsg">You've already shown your support — and we love you for it!</span>
+</div>
 
 
 
@@ -991,16 +1112,197 @@ setCalc(50);
   });
 })();
 
-// Progress bar
-const pObs = new IntersectionObserver((entries) => {
-  entries.forEach(e => {
-    if (e.isIntersecting) {
-      document.getElementById('progressBar').style.width = '1%';
-      pObs.unobserve(e.target);
+// ── Platform Detection ──
+function detectPlatform() {
+  const ua = navigator.userAgent || '';
+  if (/iPad|iPhone|iPod/.test(ua) && !window.MSStream) return 'ios';
+  if (/Android/i.test(ua)) return 'android';
+  if (/Windows/i.test(ua)) return 'web';
+  if (/Macintosh|Mac OS/i.test(ua)) return 'web';
+  if (/Linux/i.test(ua)) return 'web';
+  return 'other';
+}
+const userPlatform = detectPlatform();
+
+// ── Show/Hide UPI: single button, iOS gets app chooser on click ──
+
+// ── Google Sheets Backend ──
+// ⚠️ REPLACE THIS URL with your deployed Google Apps Script Web App URL
+const SHEETS_API_URL = 'https://script.google.com/macros/s/AKfycbxtOU4XxFWkslbzN_aXe5VsxqntWeToJbSDsl-oWyU7SD8gjBS_TFlwEvsSroGwqOME/exec';
+// ⚠️ REPLACE with the same secret you set in your Apps Script (see google-apps-script.js)
+const API_TOKEN = 'onepenny_change_me_to_something_random_2026';
+
+let userIP = '';
+let hasSupported = false;
+
+// INR formatter
+function formatINRVal(n) {
+  if (!n && n !== 0) return '—';
+  const s = Math.round(n).toString();
+  if (s.length <= 3) return '₹' + s;
+  let last3 = s.slice(-3);
+  let rest = s.slice(0, -3);
+  let f = '';
+  while (rest.length > 2) { f = ',' + rest.slice(-2) + f; rest = rest.slice(0, -2); }
+  return '₹' + rest + f + ',' + last3;
+}
+
+// Fetch user IP
+async function fetchUserIP() {
+  try {
+    const res = await fetch('https://api.ipify.org?format=json');
+    const data = await res.json();
+    userIP = data.ip || '';
+  } catch (e) {
+    userIP = 'fp_' + btoa(navigator.userAgent + screen.width + screen.height + new Date().getTimezoneOffset()).slice(0, 20);
+  }
+}
+
+// Fetch all data from Google Sheets (support count + Variables)
+async function fetchSupportData() {
+  if (!SHEETS_API_URL || SHEETS_API_URL.includes('YOUR_GOOGLE')) return;
+  try {
+    const url = SHEETS_API_URL + '?ip=' + encodeURIComponent(userIP) + '&token=' + encodeURIComponent(API_TOKEN);
+    const res = await fetch(url);
+    const data = await res.json();
+
+    // Support counter (for the "I Support" section)
+    const countEl = document.getElementById('supportCountNum');
+    if (countEl) countEl.textContent = (data.total || 0).toLocaleString('en-IN');
+
+    // Visitors card (total supporters = visitors who clicked)
+    const visitorsEl = document.getElementById('visitorsVal');
+    if (visitorsEl) visitorsEl.textContent = (data.total || 0).toLocaleString('en-IN');
+
+    // Goal Amount from Variables sheet
+    const goalEl = document.getElementById('goalVal');
+    if (goalEl && data.goalAmount != null) {
+      goalEl.textContent = formatINRVal(data.goalAmount);
     }
-  });
-}, { threshold: .3 });
-pObs.observe(document.getElementById('progressBar'));
+
+    // Currently Raised from Variables sheet
+    const raisedEl = document.getElementById('raisedVal');
+    if (raisedEl && data.currentlyRaised != null) {
+      raisedEl.textContent = formatINRVal(data.currentlyRaised);
+    }
+
+    // Contributed By from Variables sheet (column C)
+    const contribEl = document.getElementById('contributorVal');
+    if (contribEl && data.contributedBy != null) {
+      contribEl.textContent = Number(data.contributedBy).toLocaleString('en-IN');
+    }
+
+    // Dynamic progress bar
+    if (data.goalAmount && data.currentlyRaised != null) {
+      const pct = Math.min((data.currentlyRaised / data.goalAmount) * 100, 100);
+      const bar = document.getElementById('progressBar');
+      const label = document.getElementById('progressPercent');
+      if (bar) bar.style.width = Math.max(pct, 0.3) + '%';
+      if (label) label.textContent = pct.toFixed(5) + '% funded';
+    }
+
+    // Check if user already supported
+    if (data.alreadySupported) {
+      hasSupported = true;
+      markAsSupported();
+    }
+  } catch (e) {
+    console.log('Could not fetch support data:', e);
+  }
+}
+
+function markAsSupported() {
+  const btn = document.getElementById('iSupportBtn');
+  const btnText = document.getElementById('supportBtnText');
+  if (btn) {
+    btn.classList.add('clicked');
+    btnText.textContent = 'You Support This! ✨';
+  }
+}
+
+// Sweet toast messages for repeat clickers
+const sweetMessages = [
+  { emoji: '💛', msg: "You've already shown your support — and we love you for it!" },
+  { emoji: '🌟', msg: "Your heart is counted! One support, infinite gratitude." },
+  { emoji: '🤗', msg: "We remember you! Your support means the world." },
+  { emoji: '✨', msg: "Once is enough to make a difference — thank you!" },
+  { emoji: '🫶', msg: "Already a supporter! You're part of the journey forever." },
+  { emoji: '🎉', msg: "Double-tapping with love? We see you! Thanks again." },
+  { emoji: '💫', msg: "Your support was already written in the stars!" },
+  { emoji: '🙏', msg: "No need to click again — your kindness is already counted." },
+];
+
+function showSweetToast() {
+  const toast = document.getElementById('sweetToast');
+  const emojiEl = document.getElementById('toastEmoji');
+  const msgEl = document.getElementById('toastMsg');
+  const random = sweetMessages[Math.floor(Math.random() * sweetMessages.length)];
+  emojiEl.textContent = random.emoji;
+  msgEl.textContent = random.msg;
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 4000);
+}
+
+// Handle I Support click
+async function handleSupport() {
+  if (hasSupported) {
+    showSweetToast();
+    return;
+  }
+
+  if (!SHEETS_API_URL || SHEETS_API_URL.includes('YOUR_GOOGLE')) {
+    // Demo mode if no API URL set
+    hasSupported = true;
+    markAsSupported();
+    const countEl = document.getElementById('supportCountNum');
+    if (countEl) {
+      const cur = parseInt(countEl.textContent.replace(/,/g, '')) || 0;
+      countEl.textContent = (cur + 1).toLocaleString('en-IN');
+      countEl.classList.add('bump');
+      setTimeout(() => countEl.classList.remove('bump'), 500);
+    }
+    return;
+  }
+
+  const btn = document.getElementById('iSupportBtn');
+  btn.disabled = true;
+
+  try {
+    const res = await fetch(SHEETS_API_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain' },
+      body: JSON.stringify({
+        ip: userIP,
+        platform: userPlatform,
+        token: API_TOKEN,
+        timestamp: new Date().toISOString()
+      })
+    });
+    const data = await res.json();
+
+    if (data.success) {
+      hasSupported = true;
+      markAsSupported();
+      const countEl = document.getElementById('supportCountNum');
+      countEl.classList.add('bump');
+      setTimeout(() => countEl.classList.remove('bump'), 500);
+      await fetchSupportData();
+    } else if (data.message === 'already_supported') {
+      hasSupported = true;
+      markAsSupported();
+      showSweetToast();
+    }
+  } catch (e) {
+    console.log('Support error:', e);
+  }
+  btn.disabled = false;
+}
+
+// Initialize on page load
+(async function initSupport() {
+  await fetchUserIP();
+  await fetchSupportData();
+})();
 
 // ── UPI Quick Pay ──
 let selectedAmt = 100;
@@ -1028,20 +1330,32 @@ customInput.addEventListener('input', () => {
   }
 });
 
+function buildUPIUrl(prefix) {
+  const amt = selectedAmt;
+  const base = 'pa=Lovebanna31@oksbi&pn=OnePennyWorldTour&am=' + amt + '&cu=INR&tn=OnePenny+World+Tour+Contribution';
+  return prefix + '?' + base;
+}
+
 function triggerUPIPay() {
   const amt = selectedAmt;
   if (!amt || amt < 1) { alert('Please select or enter an amount'); return; }
 
-  const upiUrl = 'upi://pay?pa=Lovebanna31@oksbi&pn=OnePennyWorldTour&am=' + amt + '&cu=INR&tn=OnePenny+World+Tour+Contribution';
+  const upiUrl = buildUPIUrl('upi://pay');
 
-  // Check if mobile
-  const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
-
-  if (isMobile) {
-    // Open UPI intent — Android will show app chooser, iOS will try to open
+  if (userPlatform === 'ios') {
+    // iOS: toggle the app chooser panel
+    const chooser = document.getElementById('iosAppChooser');
+    if (chooser.style.display === 'none' || !chooser.style.display) {
+      chooser.style.display = 'block';
+      chooser.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    } else {
+      chooser.style.display = 'none';
+    }
+  } else if (userPlatform === 'android') {
+    // Android: system app chooser shows all UPI apps
     window.location.href = upiUrl;
   } else {
-    // Desktop — copy UPI ID and show message
+    // Desktop: copy UPI ID
     const msg = 'On a computer? Copy the UPI ID and pay ₹' + amt + ' from your phone.\n\nUPI ID: Lovebanna31@oksbi';
     navigator.clipboard.writeText('Lovebanna31@oksbi').then(() => {
       alert(msg + '\n\n✅ UPI ID copied to clipboard!');
@@ -1049,6 +1363,39 @@ function triggerUPIPay() {
       alert(msg);
     });
   }
+}
+
+// iOS-specific UPI app deep links
+function triggerUPIApp(app) {
+  const amt = selectedAmt;
+  if (!amt || amt < 1) { alert('Please select or enter an amount'); return; }
+
+  const params = 'pa=Lovebanna31@oksbi&pn=OnePennyWorldTour&am=' + amt + '&cu=INR&tn=OnePenny+World+Tour+Contribution';
+  let url = '';
+
+  switch(app) {
+    case 'gpay':
+      url = 'gpay://upi/pay?' + params;
+      break;
+    case 'phonepe':
+      url = 'phonepe://pay?' + params;
+      break;
+    case 'paytm':
+      url = 'paytm://upi/pay?' + params;
+      break;
+    case 'whatsapp':
+      url = 'whatsapp://pay?' + params;
+      break;
+    default:
+      url = 'upi://pay?' + params;
+  }
+
+  window.location.href = url;
+
+  // Fallback: if app not installed, show message after delay
+  setTimeout(() => {
+    // If we're still on the same page, the app probably didn't open
+  }, 2500);
 }
 
 // Copy UPI
